@@ -1,22 +1,17 @@
 class Solution {
-     public static List<List<Integer>> subsets(int[] nums) {
-
-        Arrays.sort(nums);
-
+      public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
-        res.add(new ArrayList<>());
-
-        for (int i = 0; i < nums.length; i++) {
-
-            int size = res.size();
-
-            for (int j = 0; j < size; j++) {
-
-                List<Integer> subset = new ArrayList<>(res.get(j));
-                subset.add(nums[i]);
-                res.add(subset);
-            }
-        }
+        Arrays.sort(nums);
+        subsetRec(res, new ArrayList<>(), nums, 0);
         return res;
+    }
+
+    private void subsetRec(List<List<Integer>> res, List<Integer> curr, int[] nums, int idx) {
+        res.add(new ArrayList<>(curr));
+        for (int i = idx; i < nums.length; i++) {
+            curr.add(nums[i]);
+            subsetRec(res, curr, nums, i+1);
+            curr.remove(curr.size() - 1);
+        }
     }
 }
