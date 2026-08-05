@@ -1,35 +1,38 @@
 class Solution {
+
+    class Node {
+        String value;
+        int open;
+        int close;
+
+        public Node(String value, int open, int close) {
+            this.value = value;
+            this.open = open;
+            this.close = close;
+        }
+    }
+
     public List<String> generateParenthesis(int n) {
         List<String> result = new ArrayList<>();
-        backtrack(result, new StringBuilder(), 0, 0, n);
+        Queue<Node> q = new LinkedList();
+        q.add(new Node("", 0, 0));
+
+        while (!q.isEmpty()) {
+            Node curr = q.poll();
+            if (curr.value.length() == 2 * n) {
+                result.add(curr.value);
+            }
+
+            if (curr.open < n) {
+                q.add(new Node(curr.value + "(", curr.open + 1, curr.close));
+            }
+
+            if (curr.open > curr.close) {
+                q.add(new Node(curr.value + ")", curr.open, curr.close + 1));
+            }
+        }
+
         return result;
     }
 
-    private void backtrack(List<String> result, StringBuilder current, int open, int close, int n) {
-
-        if (current.length() == 2 * n) {
-            result.add(current.toString());
-            return;
-        }
-
-        // Add '('
-        if (open < n) {
-            backtrack(result,
-                    current.append("("),
-                    open + 1,
-                    close,
-                    n);
-            current.deleteCharAt(current.length() - 1);
-
-        }
-
-        if (open > close) {
-            backtrack(result,
-                    current.append(")"),
-                    open,
-                    close + 1,
-                    n);
-            current.deleteCharAt(current.length() - 1);
-        }
-    }
 }
