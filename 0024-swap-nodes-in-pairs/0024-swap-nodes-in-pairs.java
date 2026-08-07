@@ -14,23 +14,18 @@ class Solution {
         ListNode curr = head;
         ListNode first = head;
         ListNode prevPair = dummy;
-        int count = 0;
-        while (curr != null) {
-            count = count + 1;
-            if (count == 2) {
-                ListNode second = curr;
 
-                first.next = second.next;
-                second.next = first;
-                prevPair.next = second;
+        while (curr != null && curr.next != null) {
+            ListNode second = curr.next;
 
-                prevPair = first;
-                curr = first.next;
-                first = curr;
-                count = 0;
-            } else {
-                curr = curr.next;
-            }
+            first.next = second.next;
+            second.next = first;
+            prevPair.next = second;
+
+            prevPair = first;
+            curr = first.next;
+            first = curr;
+
         }
         return dummy.next;
     }
